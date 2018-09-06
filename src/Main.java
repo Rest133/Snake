@@ -14,8 +14,8 @@ public class Main extends JPanel implements ActionListener {
     public static final int WIDTH = 20;
     public static int speed = 10;
     public static int different = 0;
-    public static int color=1;
-    public static Color[] colors = {Color.RED,Color.BLUE,Color.GREEN};
+    public static int color = 1;
+    public static Color[] colors = {Color.RED, Color.BLUE, Color.GREEN};
 
     Snake snake = new Snake(5, 6, 5, 5);
     Timer timer = new Timer(1000 / speed, this);
@@ -26,9 +26,6 @@ public class Main extends JPanel implements ActionListener {
         timer.start();
         addKeyListener(new KeyBoard());
         setFocusable(true);
-        if (snake.lenght == 360) showMessageDialog(null, "Поздравляю, Вы выиграли!");
-        if ((snake.lenght == 360) && (different != 0)) showMessageDialog(null, "Что ты такое?О_о\n" +
-                "Тащить - твое призвание");
     }
 
     public static void run() {
@@ -44,6 +41,21 @@ public class Main extends JPanel implements ActionListener {
         showMessageDialog(null, "Вы проиграли");
         jFrame.dispose();
         timer.stop();
+    }
+
+    public void closeWin() {
+        if (snake.lenght == 360) {
+            showMessageDialog(null, "Поздравляю, Вы выиграли!");
+            jFrame.dispose();
+            timer.stop();
+        }
+        if ((snake.lenght == 360) && (different != 0)) {
+            showMessageDialog(null, "Что ты такое?О_о\n" +
+                    "Тащить - твое призвание");
+            jFrame.dispose();
+            timer.stop();
+
+        }
     }
 
     public void paint(Graphics g) {
@@ -83,6 +95,7 @@ public class Main extends JPanel implements ActionListener {
         if ((snake.snakeX[0] == point.posX) && (snake.snakeY[0] == point.posY)) {
             point.setRandomLocation();
             snake.lenght++;
+            closeWin();
         }
         for (int l = 1; l < snake.lenght; l++) {
             if ((snake.snakeX[l] == point.posX) && (snake.snakeY[l] == point.posY)) {
